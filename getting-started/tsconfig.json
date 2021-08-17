@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    // 자바스크립트 허용
+    "checkJs": true,
+    // js-doc 허용
+    "noImplicitAny": true,
+    // 무조건 타입을 집어넣어줘야함
+    "module": "AMD",
+    "removeComments": true,
+    "outFile": "./dist/all.js",
+    "sourceMap": true
+  },
+  "include": ["**.*"]
+}
