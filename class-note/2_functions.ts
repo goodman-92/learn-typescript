@@ -16,11 +16,10 @@ function add2(a: number, b: number): number {
 
 // add2(1, 2, 3, 4) // 함수의 인자를 체크한다, 마음대로 넣을수없다
 
-
-function log(a: string, b?: string, c?: string) {
-	return a + b + c
-}
-
-
 log("hello world");
 log("hello world", "ts")
+
+// void 반환값이 없는것
+function log(a: string, b?: string, c?: string): void { //
+	console.log(a + b + c)
+}

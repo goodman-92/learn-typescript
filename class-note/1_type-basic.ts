@@ -54,3 +54,6 @@ type personPossibleAge = number
 
 // 진위값으로 오브젝트의 키값을 확인한다
 let person2: { name: string, age: personPossibleAge } = {name: "hiJin", age: 2}
+
+let todoItems; // 지정을 안하면 any
+// 실행을 할때 type 이 선언된다 자바스크비트에서는
