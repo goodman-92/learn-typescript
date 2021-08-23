@@ -7,6 +7,8 @@ let str2: string = "hello";
 // str2 = 2 => 숫자로 인식안된다
 let num: number = 10;
 
+let bool: boolean = false
+
 // 배열안에 어떤 타입이 들어가야되는지 정해야한다
 let arr: Array<number> = [1, 2, 3];
 
@@ -15,6 +17,7 @@ let heroes: Array<String> = ['capt', 'thor', 'hulk', 'a'];
 
 // 제네릭을안쓰네?
 let items: number[] = [1, 2, 3];
+// let objArray: object[] = [{}, {}, {}]
 
 // TS 튜플
 // 모든 index 에 배열을 담아놓고있다, 각 배열이 어떻게 나올지 지정함

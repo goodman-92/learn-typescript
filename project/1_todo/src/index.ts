@@ -15,9 +15,9 @@ function fetchTodos(): Todo[] {
 }
 
 function addTodo(todo: Todo) {
-	if (todo.title.length === 0) {
-		throw new Error('제목을 입력해주세요')
-	}
+	// if (todo.title.length === 0) {
+	// 	throw new Error('제목을 입력해주세요')
+	// }
 
 	todoItems.push(todo)
 }
@@ -29,6 +29,7 @@ function deleteTodo(index: number): void {
 function completeTodo(index: number, todo: Todo): void {
 	todo.done = true;
 	todoItems.splice(index, 1, todo)
+	
 }
 
 function logFirstTodo(): Todo {
@@ -36,27 +37,21 @@ function logFirstTodo(): Todo {
 }
 
 function showCompletedTodos(): Todo[] {
-	return todoItems.filter(item => item.done);
+	return todoItems.filter((todo) => todo.done);
 }
 
-function addTodoItems(): void {
-	addTodo({
-		id: Date.now(),
-		title: "nextJs study",
-		done: false,
-	})
-	addTodo({
-		id: Date.now() + 1,
-		title: "",    // 빈 문자열이 되버리네?
-		done: false,
+function addTodoItems(todos: Todo[]): void {
+	todos.forEach((todo) => {
+		addTodo(todo);
 	})
 }
 
 function log(): void {
-	console.log(todoItems);
+	console.log(todoItems); // console.log => undefined
+	return addTodoItems([{title: "1", done: true, id: Date.now()}])
 }
 
 todoItems = fetchTodos();
-addTodoItems();
-log();
+// addTodoItems();
+// log();
 

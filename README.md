@@ -1,10 +1,11 @@
- ## 타입스크립트  요약
- 
+## 타입스크립트 요약
+
 ```
-    Microsoft C# 개발자가 만듬
+    Microsoft C#,  Angular 사용에 개발자가 만듬
 ```
 
 ### 타입스크립트의 장점
+
 ```
  API
    1-1. 안쓸경우 api 에서 데이터 처리 할때 , 어느게 들어올지 예상을 못한다. ide 에서 추적을 못한다. 오타 방지 불가능
@@ -23,6 +24,7 @@
  ```
 
 ### 타입스크립트 환경 설정 및 실행 방법
+
 ```
     2-1. 우선 node 를 설치하자( node ver > 10, npm version)
     2-2. npm i -g typescript (글로벌 설치, 어디에서나 실행할수있게설정)
@@ -32,8 +34,9 @@
     2-6. tsc *.ts --watch (전체 파일 watch)                                                ㅏ
     2-7. sourceMap : js 로 빌드된 파일을 디버그시 잡고싶을때 사용하는 것, js typescript 를 연결해주는 맵이다 
 ```
-    
+
 ### 변수와 함수 타입 정의
+
 ```   
     !!차후 변수에 값을 추가로 지정할때 지정된 타입만 추가 할 수 있다.
 
@@ -66,7 +69,83 @@
     let personObj: { name: string, age: number, isAudult: boolean} = { name: 'jin', age: 20, isAudult:true }
 ```
 
-```
-    
+### 제네릭
 
+```
+   1. 사용방법 사용방법 함수에 <T>라고 넣고 사용하고 싶은 타입 반환값 or 인자에 넣어서 활용 된다
+   2. 장점
+    2-1 반환값에 타입을 제네릭 선언된걸 사용 하면 어느 인자든 주입한 제네릭 타입에 의해 사용 가능하다(재활용이 좋다) 👍
+        : 없을경우 유니온 타입값이 반환값이 어정쩡할때 코드의 수고량이 들어간다. 타입체크를 해야되서
+        : 아니면 각 맞는 함수를 생성해야하는 번거로움이 존재한다
+    function logText<T>(text: T): T {
+	    console.log(text)
+	    return text;
+    }
+    // 반환값을 표기하기에 반환값의 타입의 다양성을 정확히 추론할수있다
+    logText(10).toLocaleString();   
+    logText<string>('hello').split('')
+    
+    
+    2-2 같은 모양의 인터페이스에 타입을 기입해 재사용 가능하다 👍
+    interface DropdownItem<T> {
+	    value: T;
+	    selected: boolean;
+    }
+
+    const emails: DropdownItem<string>[] = [
+    	{value: 'naver.com', selected: true},
+    	{value: 'gmail.com', selected: false},
+    	{value: 'hanmail.net', selected: false},
+    ];
+
+    const numberOfProducts: Array<DropdownItem<number>> = [
+    	{value: 1, selected: true},
+    	{value: 2, selected: false},
+    	{value: 3, selected: false},
+    ]; 
+    
+    // 함수에서 넣은 T 를 인자의 타입 인터페이스, 배열에도 적용 가능하다
+    function createDropdownItem<T>(item: DropdownItem<T>) {
+    function logTextLength<T>(text: T[]) T[] : 단점이 제네릭으로 선언된 배열 아이템의 인자를 모른다. 그래서 사용하기어렵다
+
+    3. 추가 기능
+     3-1 확장자 기능(<T extends { length: number }>
+        : 차입을 모르니 함수안에서 활용성이 떨어질수 밖에 없다.
+        : 확장을 하면서 함수를 호출할때 제한적일수밖에 없다(확장조건에 충족이 되어야한다)
+      interface LengthType {
+        length: number
+      }  
+        
+      function logTextLength<T extentds LengthType>(text: T): void {
+        console.log(text.length)
+      } 
+      
+      // length 라는 프로퍼티를 충종하기 위해 값이 제한된다
+      logTextLength(10) // ❌ 숫자열 10은 length 라는 숫자타입의 프로퍼티를 제공하지 않는다
+      logTextLength({leng: '1'}) ❌ 정확히 object안에 length 라는 키값에 number 타입이 들어와야된다
+      logTextLength({length: 1})
+      logTextLength('hello world')
+      logTextLength([1,2,3])
+        
+       3-2: keyof 타입 제한
+        
+       interface ShoppingItem {
+	      name: string;
+	      price: number;
+	      stock: number;
+        }
+       
+       // 굳이 만든 억지 예제대, 제네릭에 키를 확장에서 itemOption 의 키 값을 제한을 줬다. 그래서 이넘처럼 사용 가능하다? 딱히 필요성은 모르겟다  
+       function getShoppingFindItemOption<T extends keyof ShoppingItem>(id: number, itemOption: T): undefined | ShoppingItem[T] {
+	      const items: ShoppingItem[] = [
+	      	{ id: 1, stock: 1, price: 10, name: "watch"}, {id: 2, stock: 2, price: 20, name: "book"}
+	      ]
+	    
+	      const filterItem = items.filter(i => i.id === id)
+
+	      return filterItem[0][itemOption];
+        }
+
+    
+    
 ```
