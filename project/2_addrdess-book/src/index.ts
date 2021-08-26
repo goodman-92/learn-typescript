@@ -107,3 +107,12 @@ class AddressBook {
 }
 
 new AddressBook();
+
+const assertionContainer = document.querySelector('.container') as HTMLDivElement;
+const normalContainer = document.querySelector('.container');
+
+// normalContainer.id; //null 가능성때문에 에러가 난다; strict 설정에 영향을 받는다
+if (normalContainer) {
+  normalContainer.id;
+}
+assertionContainer.id; //확실하다고 판단해서 선언한다. if를 줄일수 있다
