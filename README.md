@@ -232,3 +232,60 @@ const detailedItem: DetailedDropdown<string> = {
   }
 
 ~~~
+
+### 타입 호환
+#### 타입 호환이란 타입스크립트 콛으에서 특정 타입이 다른 타입에 잘 맞는지를 의미한다.
+
+~~~typescript
+ // 인터페이스, class, function, generic 다 타입 호환이 잘되는지 확인한다
+ // 이미 선언함 변수에 재선언할때 타입 범위에 따라서 결정 한다 
+
+ // 인터페이스, 클래스일경우 선언된 프로퍼티의 범위
+ 
+  // 인터페이스
+  interface Developer {
+   name: string;
+   skill: string;
+  }
+
+  interface Person {
+    name: string;
+  }
+  
+  class Person {
+    name: string;
+  }
+
+  let developer: Developer;
+  let person: Person;
+
+  // developer = person // 인간은 개발자를 충족시킬수없다
+  person = developer // 개발자는 인간의 필요조건을 충족 할 수 있다
+
+  // 함수일 경우 인자 및 리턴 값
+  // 리턴 타입이여도 해당되는지 체크 해야한다
+  let add = (a: number) => {}
+  let sum = (a: number, b: number) => {}
+  
+  // add = sum // 함수의 인자타입도 비교된다
+  sum = add; // 포함관계로 비교된다
+
+  // 제네릭일 경우는 활용되서 리턴되는 값의 범위
+  // 거의 안되는 거 같음 타입이 선언할때부터 다르니 호환 자체가 불 가능
+  interface Empty<T> {}
+
+  let empty1: Empty<string>;
+  let empty2: Empty<number>;
+
+  interface NotEmpty<T> {
+    Data: T
+  } 
+
+  let notEmpty1: NotEmpty<string>
+  let notEmpty2: NotEmpty<number>
+
+  // number != string
+  notEmpty1 = notEmpty2
+  notEmpty2 = notEmpty1
+
+~~~
