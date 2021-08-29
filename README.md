@@ -120,11 +120,11 @@
 	}
 
 	// length 라는 프로퍼티를 충종하기 위해 값이 제한된다
-	logTextLength(10) // ❌ 숫자열 10은 length 라는 숫자타입의 프로퍼티를 제공하지 않는다
-	logTextLength({leng: '1'}) //❌ 정확히 object안에 length 라는 키값에 number 타입이 들어와야된다
-	logTextLength({length: 1})
-	logTextLength('hello world')
-	logTextLength([1,2,3])
+	logTextLength(10); // ❌ 숫자열 10은 length 라는 숫자타입의 프로퍼티를 제공하지 않는다
+	logTextLength({leng: '1'}); //❌ 정확히 object안에 length 라는 키값에 number 타입이 들어와야된다
+	logTextLength({length: 1});
+	logTextLength('hello world');
+	logTextLength([1,2,3]);
 
 	// 3-2: keyof 타입 제한
 	interface ShoppingItem {
@@ -234,7 +234,7 @@ const detailedItem: DetailedDropdown<string> = {
 ~~~
 
 ### 타입 호환
-#### 타입 호환이란 타입스크립트 콛으에서 특정 타입이 다른 타입에 잘 맞는지를 의미한다.
+#### 타입 호환이란 타입스크립트 에서 특정 타입이 다른 타입에 잘 맞는지를 의미한다.
 
 ~~~typescript
  // 인터페이스, class, function, generic 다 타입 호환이 잘되는지 확인한다
