@@ -205,3 +205,30 @@ const detailedItem: DetailedDropdown<string> = {
     	div.innerText
     }
 ~~~
+
+### 타입 가드
+
+~~~typescript
+  // 유니온 타입일 경우 공통된 부분 외에는 쉽게 사용하기가 어렵다
+  // 이 상황일때는 대비해서 타입 가드 형식으로 쉽게 선언 할 수 있다
+  // 타입 가드 함수없이는 if 타입 단언을 활용해서 선언 할 수 있다
+
+  if ((tony as Developer).skill) {
+    const skill = (tony as Developer).skill;
+  } else if ((tony as Person).age) {
+    const age = (tony as Person).age;
+  }
+
+  // 타입 가드 함수는  주로 is + 명사 함수명으로 만든다, 함수 리턴 타입에 is 라고 선언한다
+  function isDeveloper(target: Person | Developer): target is Developer {
+    return (target as Developer).skill !== undefined;
+  }
+
+  // 타입 가드로 인해 이용해 쉽게 활용 가능 하다.
+  if (isDeveloper(tony)) {
+    tony.skill;
+  } else {
+    tony.age;
+  }
+
+~~~
