@@ -289,3 +289,65 @@ const detailedItem: DetailedDropdown<string> = {
   notEmpty2 = notEmpty1
 
 ~~~
+
+### 유틸리티 타입
+#### 유틸리티 타입은 이미 정의해 놓은 타입을 변환할때 사용하기 좋은 타입 문법
+
+- Partial: 특정 타입 부분 집합(map)
+~~~typescript
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  brand: string;
+  stock: number;
+  some?: any;
+}
+
+// 위에 상품 인터페이스와 중복된다. 불필요하게 낭비가 심하다
+interface ProductDetail {
+	id: number;name: string;price: number;
+}
+
+// function displayProductDetail(shoppingItem: ProductDetail) {}
+
+// 쉽게 재활용 가능하다, 원한는 필드값만 선택 할 수 있다
+type ShoppingItem = Pick<Product, 'id' | 'name' | 'price'>
+
+function displayProductDetail(shoppingItem: ShoppingItem) {
+	const { name, price, id } = shoppingItem
+}
+~~~
+
+### Omit 특정한 프로퍼티만 제외하고 입력하는 함수
+### Pick 특정한 프로퍼티만 선택하는 함수
+### Partial 직접 구현하기
+
+~~~typescript
+
+// # 1 직접 일일이 구현
+type UserProfileUpdate1 = {
+	username?: UserProfile['username'];
+	email?: UserProfile['email'];
+	profilePhotoUrl?: UserProfile['profilePhotoUrl']
+}
+
+// # 2 키 값을 배열로 만들어줌, [선택값(p) in 전체 객체 key 값]?: 타입[선택값[P]]
+type UserProfileUpdate2 = {
+	[p in 'username' | 'email' | 'profilePhotoUrl' ]? : UserProfile[p]
+}
+
+// 타입의 키만 빼서 사용할수잇엇지 => 키만 쏙쏙 뺄수있는 장점
+type UserProfileKeys = keyof UserProfile
+
+// # 3 [선택값(p) in 타입의 Key의 집합]?: 타입[선택값]
+type UserProfileUpdate3 = {
+	[p in keyof  UserProfile]?: UserProfile[p]
+}
+
+// # 4 제네릭으로 type을 유동적으로 받을수있고 언제든지 활용가능하게 만들기
+type Subset<T> = {
+	[p in keyof T]?: T[p];
+}
+
+~~~
