@@ -29,8 +29,8 @@
     2-1. 우선 node 를 설치하자( node ver > 10, npm version)
     2-2. npm i -g typescript (글로벌 설치, 어디에서나 실행할수있게설정)
     2-3. tsc 파일명 (파일 컴파일)
-    2-4. tsc --init (tsconfig.js) 설정파일을 기준으로 컴파일 한다(수동 생성시 문제생김)
-    2-5. tsc --project (tsconfig.js 수동으로 설치시 이렇게해야적용된다..)
+    2-4. tsc --init (tsconfig.json) 설정파일을 기준으로 컴파일 한다(수동 생성시 문제생김)
+    2-5. tsc --project (tsconfig.json 수동으로 설치시 이렇게해야적용된다..)
     2-6. tsc *.ts --watch (전체 파일 watch)                                                ㅏ
     2-7. sourceMap : js 로 빌드된 파일을 디버그시 잡고싶을때 사용하는 것, js typescript 를 연결해주는 맵이다 
 ```

@@ -1,0 +1,14 @@
+{
+  "name": "3_covid-chart",
+  "version": "1.0.0",
+  "description": "최종 프로젝트 폴더입니다",
+  "main": "src/app.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.4.2"
+  }
+}
