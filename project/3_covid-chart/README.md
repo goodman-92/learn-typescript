@@ -12,12 +12,13 @@
   - [x] 자바스크립트 파일을 타입스크립트 파일로 변환
   - [x] 'tsc' 명령어로 타입스크립트 변환        
 2. 명시적인 'any' 선언하기
-  - [x] 함수 인자  any
-  - [x] arrow function any
-  - [x] forEach value any
-3. Dom 함수 타입 해결하기
-  - [x] Dom 관련된 선언된 값에대해서 단언을 해준다.
-
+   - 'tscofnig.json' 파일에 'noImplicitAny' 값을 'true'로 추가
+   - 가능한 구체적인 타입으로 타입 정의
+3. 프로젝트 환경 구성
+   - bebel, eslint, prettier 등의 환경 설정
+4. 외부 라이브러치 모듈화
+   - 타입 선언 된 lib 를 검색해서 사용해보자(typescript 공홈)                       
+   - 없을 경우 typeRoots 옵션을 통해 타입을 직접 만들자
 ## 참고 자료
 
 - [존스 홉킨스 코로나 현황](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)

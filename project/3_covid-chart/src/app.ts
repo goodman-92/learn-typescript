@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { Chart } from 'chart.js';
+
 // utils
 function $(selector: any) {
   return document.querySelector(selector);
@@ -8,8 +11,6 @@ function getUnixTimestamp(date: number | string | Date): number {
   return new Date(date).getTime();
 }
 
-// DOM
-let a: Element | HTMLElement | HTMLParagraphElement;
 // 결과 값을 단언을 해준다( querySelector 함수에 결과값을 확신할수 없다)
 const confirmedTotal = $('.confirmed-total') as HTMLSpanElement;
 const deathsTotal = $('.deaths') as HTMLParagraphElement;
@@ -180,8 +181,15 @@ async function setupData() {
 function renderChart(data: any, labels: any) {
   console.log(data, labels);
   const ctx = $('#lineChart').getContext('2d');
-  Chart.defaults.global.defaultColor = '#f5eaea';
-  Chart.defaults.global.defaultFontFamily = 'Exo 2';
+
+  Chart.defaults.color = '#f5eaea';
+  Chart.defaults.font = {
+    lineHeight: undefined,
+    size: 0,
+    style: undefined,
+    weight: undefined,
+    family: 'Exo 2',
+  };
   new Chart(ctx, {
     type: 'line',
     data: {

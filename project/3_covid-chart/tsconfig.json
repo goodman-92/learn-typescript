@@ -9,7 +9,8 @@
       "ES2015",
       "DOM",                             
       "DOM.Iterable"
-    ]
+    ],
+//    "typeRoots": ["./node_modules/@types", "types"]
   },
   "include": [
     "./src/**/*"
