@@ -4,11 +4,25 @@
   "description": "최종 프로젝트 폴더입니다",
   "main": "src/app.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "@babel/core": "^7.15.4",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-typescript": "^7.15.0",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2",
     "typescript": "^4.4.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }

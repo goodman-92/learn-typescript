@@ -15,6 +15,8 @@
   - [x] 함수 인자  any
   - [x] arrow function any
   - [x] forEach value any
+3. Dom 함수 타입 해결하기
+  - [x] Dom 관련된 선언된 값에대해서 단언을 해준다.
 
 ## 참고 자료
 
