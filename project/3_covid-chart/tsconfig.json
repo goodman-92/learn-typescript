@@ -4,9 +4,10 @@
     "target": "ES5",
     "outDir": "./built",
     "moduleResolution": "Node",
+    "noImplicitAny": true,
     "lib": [
       "ES2015",
-      "DOM",
+      "DOM",                             
       "DOM.Iterable"
     ]
   },
