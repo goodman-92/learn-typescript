@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "target": "ES5",
+    "module": "CommonJS",
     "outDir": "./built",
     "moduleResolution": "Node",
     "noImplicitAny": true,
@@ -10,7 +11,10 @@
       "DOM",                             
       "DOM.Iterable"
     ],
-//    "typeRoots": ["./node_modules/@types", "types"]
+    "types": ["offscreencanvas"],
+    "allowUnusedLabels": true,
+    "skipLibCheck": true
+    //    "typeRoots": ["./node_modules/@types", "types"]
   },
   "include": [
     "./src/**/*"

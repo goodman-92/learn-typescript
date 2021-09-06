@@ -1,9 +1,17 @@
-import axios from 'axios';
-import { Chart } from 'chart.js';
+import axios, { AxiosResponse } from 'axios';
+import {
+  CategoryScale,
+  Chart,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Title,
+} from 'chart.js';
 
 // utils
-function $(selector: any) {
-  return document.querySelector(selector);
+function $<T>(selector: string) {
+  return document.querySelector(selector) as unknown as T;
 }
 
 function getUnixTimestamp(date: number | string | Date): number {
@@ -41,7 +49,7 @@ function createSpinnerElement(id: string) {
 let isDeathLoading = false;
 const isRecoveredLoading = false;
 
-const fetchCovidSummary = () => {
+const fetchCovidSummary = (): Promise<AxiosResponse<any>> => {
   const url = 'https://api.covid19api.com/summary';
   return axios.get(url);
 };
@@ -179,9 +187,9 @@ async function setupData() {
 }
 
 function renderChart(data: any, labels: any) {
-  console.log(data, labels);
-  const ctx = $('#lineChart').getContext('2d');
+  const canvas = <HTMLCanvasElement>$('#lineChart');
 
+  const ctx = canvas.getContext('2d');
   Chart.defaults.color = '#f5eaea';
   Chart.defaults.font = {
     lineHeight: undefined,
@@ -190,6 +198,15 @@ function renderChart(data: any, labels: any) {
     weight: undefined,
     family: 'Exo 2',
   };
+  Chart.register(
+    LineController,
+    LineElement,
+    PointElement,
+    LinearScale,
+    Title,
+    CategoryScale
+  );
+
   new Chart(ctx, {
     type: 'line',
     data: {
