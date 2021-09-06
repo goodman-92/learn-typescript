@@ -67,6 +67,7 @@ const fetchCountryInfo = (countryCode: any, status: CovidStatus) => {
 
 // methods
 const startApp = () => {
+  setupChartJs();
   setupData();
   initEvents();
 };
@@ -177,19 +178,17 @@ function endLoadingAnimation() {
   recoveredList.removeChild(recoveredSpinner);
 }
 
-async function setupData() {
+const setupData = async () => {
   const { data } = await fetchCovidSummary();
   setTotalConfirmedNumber(data);
   setTotalDeathsByWorld(data);
   setTotalRecoveredByWorld(data);
   setCountryRanksByConfirmedCases(data);
   setLastUpdatedTimestamp(data);
-}
+};
 
-function renderChart(data: any, labels: any) {
-  const canvas = <HTMLCanvasElement>$('#lineChart');
-
-  const ctx = canvas.getContext('2d');
+// arf
+const setupChartJs = () => {
   Chart.defaults.color = '#f5eaea';
   Chart.defaults.font = {
     lineHeight: undefined,
@@ -206,6 +205,12 @@ function renderChart(data: any, labels: any) {
     Title,
     CategoryScale
   );
+};
+
+function renderChart(data: any, labels: any) {
+  const canvas = <HTMLCanvasElement>$('#lineChart');
+
+  const ctx = canvas.getContext('2d');
 
   new Chart(ctx, {
     type: 'line',
