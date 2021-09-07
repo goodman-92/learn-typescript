@@ -8,6 +8,11 @@ import {
   PointElement,
   Title,
 } from 'chart.js';
+import {
+  CountryInfoResponse,
+  CovidStatus,
+  CovidSummaryResponse,
+} from './covid';
 
 // utils
 function $<T>(selector: string) {
@@ -49,18 +54,15 @@ function createSpinnerElement(id: string) {
 let isDeathLoading = false;
 const isRecoveredLoading = false;
 
-const fetchCovidSummary = (): Promise<AxiosResponse<any>> => {
+const fetchCovidSummary = (): Promise<AxiosResponse<CovidSummaryResponse>> => {
   const url = 'https://api.covid19api.com/summary';
   return axios.get(url);
 };
 
-enum CovidStatus {
-  Confirmed = 'confirmed',
-  Recovered = 'recovered',
-  Deaths = 'deaths',
-}
-
-const fetchCountryInfo = (countryCode: any, status: CovidStatus) => {
+const fetchCountryInfo = (
+  countryCode: any,
+  status: CovidStatus
+): Promise<AxiosResponse<CountryInfoResponse>> => {
   const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
   return axios.get(url);
 };
