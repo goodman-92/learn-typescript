@@ -4,11 +4,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],
   plugins: ['prettier', '@typescript-eslint'],
   rules: {
     'prettier/prettier': [
@@ -18,7 +14,7 @@ module.exports = {
         semi: true,
         useTabs: false,
         tabWidth: 2,
-        printWidth: 80,
+        printWidth: 140,
         bracketSpacing: true,
         arrowParens: 'avoid',
       },

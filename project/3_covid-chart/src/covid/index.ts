@@ -14,7 +14,7 @@ interface Global {
   TotalRecovered: number;
 }
 
-interface Country {
+export interface Country {
   Country: string;
   CountryCode: string;
   NewConfirmed: number;
@@ -34,7 +34,7 @@ export enum CovidStatus {
   Deaths = 'deaths',
 }
 
-interface CountryInfo {
+export interface CountryInfo {
   Cases: number;
   City: string;
   CityCode: string;
