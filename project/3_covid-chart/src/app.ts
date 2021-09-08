@@ -7,6 +7,18 @@ const $ = <T>(selector: string) => document.querySelector(selector) as unknown a
 
 const getUnixTimestamp = (date: number | string | Date): number => new Date(date).getTime();
 
+const createSpinnerElement = (id: string): HTMLDivElement => {
+  const wrapperDiv = document.createElement('div');
+  wrapperDiv.setAttribute('id', id);
+  wrapperDiv.setAttribute('class', 'spinner-wrapper flex justify-center align-center');
+  const spinnerDiv = document.createElement('div');
+  spinnerDiv.setAttribute('class', 'ripple-spinner');
+  spinnerDiv.appendChild(document.createElement('div'));
+  spinnerDiv.appendChild(document.createElement('div'));
+  wrapperDiv.appendChild(spinnerDiv);
+  return wrapperDiv;
+};
+
 // 결과 값을 단언을 해준다( querySelector 함수에 결과값을 확신할수 없다)
 const confirmedTotal = $('.confirmed-total') as HTMLSpanElement;
 const deathsTotal = $('.deaths') as HTMLParagraphElement;
@@ -18,21 +30,8 @@ const recoveredList = $('.recovered-list') as HTMLOListElement;
 const deathSpinner = createSpinnerElement('deaths-spinner');
 const recoveredSpinner = createSpinnerElement('recovered-spinner');
 
-function createSpinnerElement(id: string) {
-  const wrapperDiv = document.createElement('div');
-  wrapperDiv.setAttribute('id', id);
-  wrapperDiv.setAttribute('class', 'spinner-wrapper flex justify-center align-center');
-  const spinnerDiv = document.createElement('div');
-  spinnerDiv.setAttribute('class', 'ripple-spinner');
-  spinnerDiv.appendChild(document.createElement('div'));
-  spinnerDiv.appendChild(document.createElement('div'));
-  wrapperDiv.appendChild(spinnerDiv);
-  return wrapperDiv;
-}
-
 // state
 let isDeathLoading = false;
-const isRecoveredLoading = false;
 
 const fetchCovidSummary = (): Promise<AxiosResponse<CovidSummaryResponse>> => {
   const url = 'https://api.covid19api.com/summary';
@@ -101,7 +100,9 @@ const setDeathsList = (data: CountryInfoResponse): void => {
 
 const clearDeathList = (): void => (deathsList.innerHTML = null);
 
-const setTotalDeathsByCountry = (data: CountryInfoResponse): string => (deathsTotal.innerText = data[0].Cases.toString());
+const setTotalDeathsByCountry = (data: CountryInfoResponse): void => {
+  deathsTotal.innerText = data[0].Cases.toString();
+};
 
 const setRecoveredList = (data: CountryInfoResponse): void => {
   const sorted = data.sort((a: CountryInfo, b: CountryInfo) => getUnixTimestamp(b.Date) - getUnixTimestamp(a.Date));
@@ -121,7 +122,9 @@ const setRecoveredList = (data: CountryInfoResponse): void => {
 
 const clearRecoveredList = (): void => (recoveredList.innerHTML = null);
 
-const setTotalRecoveredByCountry = (data: CountryInfoResponse): string => (recoveredTotal.innerText = data[0].Cases.toString());
+const setTotalRecoveredByCountry = (data: CountryInfoResponse): void => {
+  recoveredTotal.innerText = data[0].Cases.toString();
+};
 
 const startLoadingAnimation = (): void => {
   deathsList.appendChild(deathSpinner);
@@ -155,7 +158,7 @@ const setupChartJs = () => {
   Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
 };
 
-function renderChart(data: any, labels: any) {
+const renderChart = (data: number[], labels: string[]) => {
   const canvas = <HTMLCanvasElement>$('#lineChart');
 
   const ctx = canvas.getContext('2d');
@@ -175,27 +178,36 @@ function renderChart(data: any, labels: any) {
     },
     options: {},
   });
-}
-
-function setChartData(data: any) {
-  const chartData = data.slice(-14).map((value: any) => value.Cases);
-  const chartLabel = data.slice(-14).map((value: any) => new Date(value.Date).toLocaleDateString().slice(5, -1));
-  renderChart(chartData, chartLabel);
-}
-
-const setTotalConfirmedNumber = (data: CovidSummaryResponse) => {
-  confirmedTotal.innerText = data.Countries.reduce((total: number, current: Country) => (total += current.TotalConfirmed), 0).toString();
 };
 
-function setTotalDeathsByWorld(data: any) {
-  deathsTotal.innerText = data.Countries.reduce((total: any, current: any) => (total += current.TotalDeaths), 0);
-}
+const setChartData = (data: CountryInfoResponse): void => {
+  const chartData = data.slice(-14).map((value: CountryInfo) => value.Cases);
+  const chartLabel = data.slice(-14).map((value: CountryInfo) => new Date(value.Date).toLocaleDateString().slice(5, -1));
+  renderChart(chartData, chartLabel);
+};
 
-function setTotalRecoveredByWorld(data: any) {
-  recoveredTotal.innerText = data.Countries.reduce((total: any, current: any) => (total += current.TotalRecovered), 0);
-}
+const setTotalConfirmedNumber = (data: CovidSummaryResponse) => {
+  confirmedTotal.innerText = data.Countries.reduce(
+    (total: number, current: Country) => (total += current.TotalConfirmed),
+    0
+  ).toString();
+};
 
-function setCountryRanksByConfirmedCases(data: any) {
+const setTotalDeathsByWorld = (data: CovidSummaryResponse): void => {
+  deathsTotal.innerText = data.Countries.reduce(
+    (total: number, current: Country) => (total += current.TotalDeaths),
+    0
+  ).toString();
+};
+
+const setTotalRecoveredByWorld = (data: CovidSummaryResponse): void => {
+  recoveredTotal.innerText = data.Countries.reduce(
+    (total: number, current: Country) => (total += current.TotalRecovered),
+    0
+  ).toString();
+};
+
+const setCountryRanksByConfirmedCases = (data: CovidSummaryResponse) => {
   const sorted = data.Countries.sort((a: any, b: any) => b.TotalConfirmed - a.TotalConfirmed);
   sorted.forEach((value: any) => {
     const li = document.createElement('li');
@@ -211,10 +223,10 @@ function setCountryRanksByConfirmedCases(data: any) {
     li.appendChild(p);
     rankList.appendChild(li);
   });
-}
+};
 
-function setLastUpdatedTimestamp(data: any) {
+const setLastUpdatedTimestamp = (data: CovidSummaryResponse): void => {
   lastUpdatedTime.innerText = new Date(data.Date).toLocaleString();
-}
+};
 
 startApp();
