@@ -3,7 +3,7 @@ import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointEl
 import { Country, CountryInfo, CountryInfoResponse, CovidStatus, CovidSummaryResponse } from './covid';
 
 // utils
-const $ = <T>(selector: string) => document.querySelector(selector) as unknown as T;
+const $ = (selector: string): Element | null => document.querySelector(selector);
 
 const getUnixTimestamp = (date: number | string | Date): number => new Date(date).getTime();
 
@@ -25,6 +25,7 @@ const deathsTotal = $('.deaths') as HTMLParagraphElement;
 const recoveredTotal = $('.recovered') as HTMLParagraphElement;
 const lastUpdatedTime = $('.last-updated-time') as HTMLParagraphElement;
 const rankList = $('.rank-list') as HTMLOListElement;
+// const rankList = $('.rank-list');
 const deathsList = $('.deaths-list') as HTMLOListElement;
 const recoveredList = $('.recovered-list') as HTMLOListElement;
 const deathSpinner = createSpinnerElement('deaths-spinner');
@@ -38,7 +39,7 @@ const fetchCovidSummary = (): Promise<AxiosResponse<CovidSummaryResponse>> => {
   return axios.get(url);
 };
 
-const fetchCountryInfo = (countryCode: any, status: CovidStatus): Promise<AxiosResponse<CountryInfoResponse>> => {
+const fetchCountryInfo = (countryCode: string | undefined, status: CovidStatus): Promise<AxiosResponse<CountryInfoResponse>> => {
   const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
   return axios.get(url);
 };
@@ -52,14 +53,19 @@ const startApp = () => {
 
 // events
 function initEvents() {
+  if (!rankList) return;
+
   rankList.addEventListener('click', handleListClick);
+  // AddEventListener 의 인자의 두번째 콜랙함수에는 Event 라는 타입이 들어간다
 }
 
-async function handleListClick(event: MouseEvent) {
+// async function handleListClick(event: MouseEvent) {
+async function handleListClick(event: Event) {
   let selectedId;
   if (event.target instanceof HTMLParagraphElement || event.target instanceof HTMLSpanElement) {
-    selectedId = event.target.parentElement.id;
+    selectedId = event.target.parentElement ? event.target.parentElement.id : undefined;
   }
+
   if (event.target instanceof HTMLLIElement) {
     selectedId = event.target.id;
   }
@@ -98,7 +104,9 @@ const setDeathsList = (data: CountryInfoResponse): void => {
   });
 };
 
-const clearDeathList = (): void => (deathsList.innerHTML = null);
+const clearDeathList = (): void => {
+  deathsList.innerHTML = '';
+};
 
 const setTotalDeathsByCountry = (data: CountryInfoResponse): void => {
   deathsTotal.innerText = data[0].Cases.toString();
@@ -116,11 +124,14 @@ const setRecoveredList = (data: CountryInfoResponse): void => {
     p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
     li.appendChild(span);
     li.appendChild(p);
-    recoveredList.appendChild(li);
+    recoveredList?.appendChild(li);
   });
 };
 
-const clearRecoveredList = (): void => (recoveredList.innerHTML = null);
+const clearRecoveredList = (): void => {
+  // recoveredList?.innerHTML = '';
+  recoveredList.innerHTML = '';
+};
 
 const setTotalRecoveredByCountry = (data: CountryInfoResponse): void => {
   recoveredTotal.innerText = data[0].Cases.toString();
@@ -128,12 +139,12 @@ const setTotalRecoveredByCountry = (data: CountryInfoResponse): void => {
 
 const startLoadingAnimation = (): void => {
   deathsList.appendChild(deathSpinner);
-  recoveredList.appendChild(recoveredSpinner);
+  recoveredList?.appendChild(recoveredSpinner);
 };
 
 const endLoadingAnimation = (): void => {
   deathsList.removeChild(deathSpinner);
-  recoveredList.removeChild(recoveredSpinner);
+  recoveredList?.removeChild(recoveredSpinner);
 };
 
 const setupData = async () => {
@@ -149,19 +160,20 @@ const setupData = async () => {
 const setupChartJs = () => {
   Chart.defaults.color = '#f5eaea';
   Chart.defaults.font = {
-    lineHeight: undefined,
+    lineHeight: 10,
     size: 0,
-    style: undefined,
-    weight: undefined,
+    style: 'normal',
+    weight: 'bold',
     family: 'Exo 2',
   };
   Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
 };
 
 const renderChart = (data: number[], labels: string[]) => {
-  const canvas = <HTMLCanvasElement>$('#lineChart');
+  const canvas = $('#lineChart') as HTMLCanvasElement;
 
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
   new Chart(ctx, {
     type: 'line',

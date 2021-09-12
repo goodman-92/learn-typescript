@@ -19,8 +19,10 @@
 4. 외부 라이브러치 모듈화
    - 타입 선언 된 lib 를 검색해서 사용해보자(typescript 공홈)                       
    - 없을 경우 typeRoots 옵션을 통해 타입을 직접 만들자
-## 참고 자료
+5. strict 모드 설정하기
+   - null 확인(연관된 룰 6개 정도 있다)
 
+## 참고 자료
 - [존스 홉킨스 코로나 현황](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
 - [Postman API](https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest#27454960-ea1c-4b91-a0b6-0468bb4e6712)
 - [Type Vue without Typescript](https://blog.usejournal.com/type-vue-without-typescript-b2b49210f0b)

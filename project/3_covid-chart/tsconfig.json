@@ -13,8 +13,10 @@
     ],
     "types": ["offscreencanvas"],
     "allowUnusedLabels": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
     //    "typeRoots": ["./node_modules/@types", "types"]
+    "strict": true,
+    "strictFunctionTypes": true
   },
   "include": [
     "./src/**/*"
