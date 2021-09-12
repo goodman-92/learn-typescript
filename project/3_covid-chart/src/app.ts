@@ -3,7 +3,8 @@ import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointEl
 import { Country, CountryInfo, CountryInfoResponse, CovidStatus, CovidSummaryResponse } from './covid';
 
 // utils
-const $ = (selector: string): Element | null => document.querySelector(selector);
+// 상속을 해야 되니 타입을 제한 할 수 있다!
+const $ = <T extends HTMLElement = HTMLDivElement>(selector: string) => document.querySelector(selector) as T;
 
 const getUnixTimestamp = (date: number | string | Date): number => new Date(date).getTime();
 
@@ -19,12 +20,13 @@ const createSpinnerElement = (id: string): HTMLDivElement => {
   return wrapperDiv;
 };
 
+// 제네릭은 함수명 사이에 입력
 // 결과 값을 단언을 해준다( querySelector 함수에 결과값을 확신할수 없다)
-const confirmedTotal = $('.confirmed-total') as HTMLSpanElement;
-const deathsTotal = $('.deaths') as HTMLParagraphElement;
-const recoveredTotal = $('.recovered') as HTMLParagraphElement;
-const lastUpdatedTime = $('.last-updated-time') as HTMLParagraphElement;
-const rankList = $('.rank-list') as HTMLOListElement;
+const confirmedTotal = $<HTMLSpanElement>('.confirmed-total');
+const deathsTotal = $<HTMLParagraphElement>('.deaths');
+const recoveredTotal = $<HTMLParagraphElement>('.recovered');
+const lastUpdatedTime = $<HTMLParagraphElement>('.last-updated-time');
+const rankList = $<HTMLOListElement>('.rank-list');
 // const rankList = $('.rank-list');
 const deathsList = $('.deaths-list') as HTMLOListElement;
 const recoveredList = $('.recovered-list') as HTMLOListElement;
