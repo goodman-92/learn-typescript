@@ -7,7 +7,6 @@ interface Person {
 	name: string;
 	age: number;
 }
-
 function introduce(): Developer | Person {
 
 	return {
@@ -38,3 +37,16 @@ if (isDeveloper(tony)) {
 } else {
 	tony.age;
 }
+
+// User Defined Type Guards
+interface A {
+	x: number
+}
+
+function isA(arg: any): arg is A {
+	return  arg.x !== undefined
+}
+
+// false
+isA({c: 3})
+isA({a: 3})
