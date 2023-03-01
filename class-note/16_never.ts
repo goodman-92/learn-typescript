@@ -38,7 +38,7 @@ function invalid(message: string): never {
 
 type Test1 = string extends never ? true : false; // false
 // string > never 보다 확장개념이여서 false
-type Test2 = string extends string ? string : false; // true
+type Test2 = never extends string ? string : false; // true
 // never < string
 
 const a: Test1 = false;
@@ -244,3 +244,9 @@ type StringType = Filter<Foo2, string>
 // https://simsimjae.tisthttps://simsimjae.tistory.com/463ory.com/463
 // type Arguments<T> = T extends (...args: infer A) => any ? A : never
 
+
+// 다른 영역의 코드에서 declare로 선언된 해당 변수나 함수를 참조할 수 있으며
+// declare 로 선언된 부분은
+// javascript로 컴파일되지 않는다.
+
+// 다른 사이트의 sdk 선언하는데 편한거 같음
