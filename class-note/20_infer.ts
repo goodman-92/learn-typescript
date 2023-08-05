@@ -75,11 +75,13 @@ describePerson(alex)
 // never 로 타입 줄일수 잇음
 type StringFromType<T> = T extends string ? 'string' | 'varchar' : never;
 
-type lorem = StringFromType<'lorem ipsum'> // string
-type ten = StringFromType<10> // never
+type Lorem = StringFromType<'lorem ipsum'> // string
+type Ten = StringFromType<10> // never
 
-const loremStr: lorem = 'varchar'
+const loremStr: Lorem = 'varchar'
 // const nums: 아무것도 선언 못하게 막은다
+
+const ten: Ten = undefined
 
 type StringFromType2<T> = T extends string
   ? 'string'
@@ -91,7 +93,7 @@ type StringFromType2<T> = T extends string
 
 type lorem2 = StringFromType2<'lorem ipsum'>
 type isActive = StringFromType2<false> // 'boolean
-type unassignable = StringFromType2<TypeError> // 'error'
+type unAssignable = StringFromType2<TypeError> // 'error'
 
 
 const lorem2Str: lorem2 = 'string';
@@ -116,4 +118,20 @@ type Exclude<T, U> = T extends U ? never : T
 type Strings = Extract<string, string | undefined>
 type OnlyString =  Exclude<number, string | undefined | number>
 
+const a: Strings = '1';
+
 /// https://blog.logrocket.com/understanding-infer-typescript/
+
+type type1 = {
+  name: string;
+  age: number;
+  isAdmin: boolean;
+};
+
+type type2 = {
+  name: string;
+};
+
+type type3 = Extract<type1, type2>;
+
+const t3: type3 = { isAdmin: false, age: 1, name: "john" }
